@@ -6,7 +6,7 @@ export interface LoginParam {
 }
 
 export interface RegisterParam extends LoginParam {
-  username: string
+  nickname: string
 }
 
 const loginUser = (data: LoginParam) => request<string>({ url: '/user/login', data })

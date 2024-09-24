@@ -1,20 +1,20 @@
 import type { ReactNode } from 'react'
-import './AuthContainer.css'
+import { Card, CardContent } from '@/components/ui/card'
 
 interface AuthContainerProps {
   title: string
   children: ReactNode
 }
 
-function AuthContainer({ title, children }: AuthContainerProps) {
+export function AuthContainer({ title, children }: AuthContainerProps) {
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
-      <div className="w-1/5 min-w-96 rounded-lg shadow-custom p-8 space-y-8">
-        <h2 className="text-2xl font-bold text-center tracking-widest">{title}</h2>
-        {children}
-      </div>
+    <div className="flex justify-center items-center w-screen h-screen">
+      <Card className="rounded-lg w-1/5 min-w-96">
+        <CardContent className="p-8 space-y-6">
+          <h2 className="text-2xl font-bold text-center tracking-widest">{title}</h2>
+          {children}
+        </CardContent>
+      </Card>
     </div>
   )
 }
-
-export default AuthContainer

@@ -2,9 +2,10 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import toast, { Toaster } from 'react-hot-toast'
 import { useEffect, useState } from 'react'
 import { getToken } from './lib/token'
-import Login from '@/pages/LoginAndRegister/Login'
+import { ThemeProvider } from './components/theme-provider'
+import { Login } from '@/pages/LoginAndRegister/Login'
+import { Register } from '@/pages/LoginAndRegister/Register'
 import Main from '@/pages/Main'
-import Register from '@/pages/LoginAndRegister/Register'
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!getToken())
@@ -16,15 +17,15 @@ function App() {
   }, [isLoggedIn])
 
   return (
-    <>
+    <ThemeProvider defaultTheme="light" storageKey="project-theme">
       <Routes>
-        <Route path="/" element={<Navigate to="/chat" />} />
-        <Route path="/chat" element={isLoggedIn ? <Main /> : <Navigate to="/login" />} />
+        <Route path="/" element={<Navigate to="/main" />} />
+        <Route path="/main" element={isLoggedIn ? <Main /> : <Navigate to="/login" />} />
         <Route path="/login" element={<Login onLoginSuccess={() => setIsLoggedIn(true)} />} />
         <Route path="/register" element={<Register />} />
       </Routes>
       <Toaster />
-    </>
+    </ThemeProvider>
   )
 }
 

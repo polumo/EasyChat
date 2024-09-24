@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
-import AuthContainer from './AuthContainer'
+import { AuthContainer } from './AuthContainer'
 import { Input } from '@/components/ui/input'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
@@ -18,7 +18,7 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>
 
-function Login({ onLoginSuccess }: any) {
+export function Login({ onLoginSuccess }: any) {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,7 +36,7 @@ function Login({ onLoginSuccess }: any) {
       const { data } = await loginUser(values)
       setToken(data)
       onLoginSuccess()
-      navigate('/chat')
+      navigate('/main')
     }
     finally {
       setIsLoading(false)
@@ -72,7 +72,7 @@ function Login({ onLoginSuccess }: any) {
             )}
           />
           <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
             登录
           </Button>
         </form>
@@ -84,5 +84,3 @@ function Login({ onLoginSuccess }: any) {
     </AuthContainer>
   )
 }
-
-export default Login

@@ -1,12 +1,15 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { KeyRound, Mail, User } from 'lucide-react'
-import AuthContainer from './AuthContainer'
+import { KeyRound, Loader2, Mail, User } from 'lucide-react'
+import { useState } from 'react'
+import { AuthContainer } from './AuthContainer'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { registerUser } from '@/api/userApi'
+import { setToken } from '@/lib/token'
 
 const formSchema = z.object({
   nickname: z.string().min(1, '请填写昵称'),
@@ -17,7 +20,7 @@ const formSchema = z.object({
 
 type FormSchema = z.infer<typeof formSchema>
 
-function Register() {
+export function Register({ onLoginSuccess }: any) {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,9 +31,20 @@ function Register() {
     },
   })
 
-  const onSubmit = (values: FormSchema) => {
-    // TODO: do something
-    console.log(values)
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+
+  const onSubmit = async (values: FormSchema) => {
+    setIsLoading(true)
+    try {
+      const { data } = await registerUser(values)
+      setToken(data)
+      onLoginSuccess()
+      navigate('/main')
+    }
+    finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -85,7 +99,10 @@ function Register() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full">注册</Button>
+          <Button type="submit" className="w-full">
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            注册
+          </Button>
         </form>
       </Form>
       <div className="text-center">
@@ -95,5 +112,3 @@ function Register() {
     </AuthContainer>
   )
 }
-
-export default Register
