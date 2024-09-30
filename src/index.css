@@ -11,6 +11,13 @@
   font-weight: 400;
 }
 
+#root {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 
 @layer base {
   :root {

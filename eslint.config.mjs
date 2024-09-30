@@ -7,5 +7,6 @@ export default antfu({
     'style/jsx-self-closing-comp': 'error',
     'antfu/top-level-function': 'off',
     'unicorn/consistent-function-scoping': 'off',
+    'react/no-unstable-context-value': 'off',
   },
 })
